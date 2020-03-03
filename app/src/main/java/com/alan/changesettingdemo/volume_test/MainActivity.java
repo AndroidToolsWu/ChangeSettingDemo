@@ -1,4 +1,4 @@
-package com.alan.changesettingdemo;
+package com.alan.changesettingdemo.volume_test;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.SeekBar;
+
+import com.alan.changesettingdemo.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         mSystemSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mAudioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, progress, 0);
+                mAudioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, progress, AudioManager.FLAG_SHOW_UI);
                 mSystemCurrentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_SYSTEM);
                 seekBar.setProgress(progress);
             }
@@ -119,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         mAlarmSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, progress, 0);
+                mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, progress, AudioManager.FLAG_SHOW_UI);
                 mAlarmCurrentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
                 seekBar.setProgress(progress);
             }
@@ -138,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         mMusicSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_SHOW_UI);
                 mMusicCurrentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                 seekBar.setProgress(progress);
             }
@@ -157,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         mRingSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mAudioManager.setStreamVolume(AudioManager.STREAM_RING, progress, 0);
+                mAudioManager.setStreamVolume(AudioManager.STREAM_RING, progress, AudioManager.FLAG_SHOW_UI);
                 mRingCurrentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_RING);
                 seekBar.setProgress(progress);
             }
@@ -212,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void setStreamVolume(int progress){
         AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, progress, 0);
+        audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, progress, AudioManager.FLAG_SHOW_UI);
     }
 
 
