@@ -34,7 +34,6 @@ import java.util.Map;
 @SuppressLint({"MissingPermission", "ObsoleteSdkInt"})
 public class InternetUtils {
 
-    private static final String TAG = "InternetUtils";
     /**
      * Network Type
      */
@@ -42,7 +41,7 @@ public class InternetUtils {
     public static final int TYPE_WIFI = 0;
     public static final int TYPE_MOBILE = 1;
     public static final int TYPE_ETHERNET = 2;
-
+    private static final String TAG = "InternetUtils";
 
     /**
      * 判断网络是否连接
@@ -86,37 +85,80 @@ public class InternetUtils {
         return internetType;
     }
 
+    /**
+     * 开关移动网络连接 (仅限SDK_INT > 26)
+     * android.Manifest.permission.MODIFY_PHONE_STATE
+     */
+    public static void changeMobileNetWorkState(Context context, boolean enable) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getApplicationContext()
+                .getSystemService(Context.TELEPHONY_SERVICE);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) telephonyManager.setDataEnabled(enable);
+    }
 
     /**
-     *  获取移动网络信号强度
-     *  Get signal level as an int from 0..4
+     * 开关wifi连接
+     * need permissions android.permission.CHANGE_WIFI_STATE
+     *
      */
-    public static int getMobileSignalLevel(Context context){
+    public static void changeWifiNetWorkState(Context context, boolean enable) {
+        WifiManager manager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        manager.setWifiEnabled(enable);
+    }
+
+
+    /**
+     * 获取网络运营商信息
+     */
+    public static String getMobileInfo(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getApplicationContext()
+                .getSystemService(Context.TELEPHONY_SERVICE);
+        return telephonyManager.getSimOperatorName();
+    }
+
+    /**
+     * 获取设备唯一标识码 IMEI
+     * need Permissions Manifest.permission.READ_PHONE_STATE
+     */
+    public static String getMobileImei(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getApplicationContext()
+                .getSystemService(Context.TELEPHONY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return telephonyManager.getImei();
+        }
+        return "";
+    }
+
+
+    /**
+     * 获取移动网络信号强度
+     * Get signal level as an int from 0..4
+     * need Permissions Manifest.permission.ACCESS_COARSE_LOCATION
+     */
+    public static int getMobileSignalLevel(Context context) {
         int level = 0;
         TelephonyManager telephonyManager = (TelephonyManager) context.getApplicationContext()
                 .getSystemService(Context.TELEPHONY_SERVICE);
-        //todo checkSelfPermission ACCESS_COARSE_LOCATION
         List<CellInfo> cellInfoList = telephonyManager.getAllCellInfo();
-        if (cellInfoList != null){
-            for (CellInfo cellInfo : cellInfoList){
-                if (cellInfo instanceof CellInfoGsm){
+        if (cellInfoList != null) {
+            for (CellInfo cellInfo : cellInfoList) {
+                if (cellInfo instanceof CellInfoGsm) {
                     //全球通网络
                     CellSignalStrengthGsm strengthGsm = ((CellInfoGsm) cellInfo).getCellSignalStrength();
                     level = strengthGsm.getLevel();
                     Log.d(TAG, "getMobileSignalLevel: Gsm " + level);
-                }else if (cellInfo instanceof CellInfoCdma){
+                } else if (cellInfo instanceof CellInfoCdma) {
                     //2G网络
-                    CellSignalStrengthCdma strengthCdma =  ((CellInfoCdma) cellInfo).getCellSignalStrength();
+                    CellSignalStrengthCdma strengthCdma = ((CellInfoCdma) cellInfo).getCellSignalStrength();
                     level = strengthCdma.getLevel();
                     Log.d(TAG, "getMobileSignalLevel: Cdma " + level);
-                }else if (cellInfo instanceof CellInfoWcdma){
+                } else if (cellInfo instanceof CellInfoWcdma) {
                     //3G网络
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                         CellSignalStrengthWcdma strengthWcdma = ((CellInfoWcdma) cellInfo).getCellSignalStrength();
                         level = strengthWcdma.getLevel();
                         Log.d(TAG, "getMobileSignalLevel: Wcdma " + level);
                     }
-                }else if (cellInfo instanceof CellInfoLte){
+                } else if (cellInfo instanceof CellInfoLte) {
                     //4G网络
                     CellSignalStrengthLte strengthLte = ((CellInfoLte) cellInfo).getCellSignalStrength();
                     level = strengthLte.getLevel();
@@ -128,57 +170,36 @@ public class InternetUtils {
     }
 
     /**
-     * 获取网络运营商信息
-     */
-    public static String getMobileInfo(Context context){
-        TelephonyManager telephonyManager = (TelephonyManager) context.getApplicationContext()
-                .getSystemService(Context.TELEPHONY_SERVICE);
-        return telephonyManager.getSimOperatorName();
-    }
-
-    /**
-     * 获取设备唯一标识码 IMEI
-     */
-    public static String getMobileImei(Context context){
-        TelephonyManager telephonyManager = (TelephonyManager) context.getApplicationContext()
-                .getSystemService(Context.TELEPHONY_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            return telephonyManager.getImei();
-        }
-        return "";
-    }
-
-    /**
      * 获取移动网络信号强度
      * Get the signal strength as dBm
+     * need Permissions Manifest.permission.ACCESS_COARSE_LOCATION
      */
     @SuppressLint("ObsoleteSdkInt")
     public static int getMobileDbm(Context context) {
         int dbm = -1;
         TelephonyManager telephonyManager = (TelephonyManager) context.getApplicationContext()
                 .getSystemService(Context.TELEPHONY_SERVICE);
-        //todo checkSelfPermission ACCESS_COARSE_LOCATION
         List<CellInfo> cellInfoList = telephonyManager.getAllCellInfo();
-        if (cellInfoList != null){
-            for (CellInfo cellInfo : cellInfoList){
-                if (cellInfo instanceof CellInfoGsm){
-                    //全球通网络
+        if (cellInfoList != null) {
+            for (CellInfo cellInfo : cellInfoList) {
+                if (cellInfo instanceof CellInfoGsm) {
+                    //2G全球通网络
                     CellSignalStrengthGsm strengthGsm = ((CellInfoGsm) cellInfo).getCellSignalStrength();
                     dbm = strengthGsm.getDbm();
                     Log.d(TAG, "getMobileDbm: Gsm " + dbm);
-                }else if (cellInfo instanceof CellInfoCdma){
+                } else if (cellInfo instanceof CellInfoCdma) {
                     //2G网络
-                    CellSignalStrengthCdma strengthCdma =  ((CellInfoCdma) cellInfo).getCellSignalStrength();
+                    CellSignalStrengthCdma strengthCdma = ((CellInfoCdma) cellInfo).getCellSignalStrength();
                     dbm = strengthCdma.getDbm();
                     Log.d(TAG, "getMobileDbm: Cdma " + dbm);
-                }else if (cellInfo instanceof CellInfoWcdma){
+                } else if (cellInfo instanceof CellInfoWcdma) {
                     //3G网络
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                         CellSignalStrengthWcdma strengthWcdma = ((CellInfoWcdma) cellInfo).getCellSignalStrength();
                         dbm = strengthWcdma.getDbm();
                         Log.d(TAG, "getMobileDbm: Wcdma " + dbm);
                     }
-                }else if (cellInfo instanceof CellInfoLte){
+                } else if (cellInfo instanceof CellInfoLte) {
                     //4G网络
                     CellSignalStrengthLte strengthLte = ((CellInfoLte) cellInfo).getCellSignalStrength();
                     dbm = strengthLte.getDbm();
@@ -190,10 +211,12 @@ public class InternetUtils {
 
     /**
      * 获取Wifi信号等级 0-4 int
+     * android.permission.ACCESS_WIFI_STATE
+     *
      * @param context
      * @return
      */
-    public static int getWifiSignalLevel(Context context){
+    public static int getWifiSignalLevel(Context context) {
         WifiManager manager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
         Log.d(TAG, "getWifiSignalLevel: " + WifiManager.calculateSignalLevel(info.getRssi(), 5));
@@ -202,6 +225,8 @@ public class InternetUtils {
 
     /**
      * wifi信号强度
+     * android.permission.ACCESS_WIFI_STATE
+     *
      * @param context
      * @return
      */
@@ -212,8 +237,14 @@ public class InternetUtils {
         return info.getRssi();
     }
 
+    /**
+     * 获取已连接的wifi信息
+     *
+     * @param context
+     * @return
+     */
     @SuppressLint("HardwareIds")
-    public static Map<String, String> getConnectedWifiInfo(Context context){
+    public static Map<String, String> getConnectedWifiInfo(Context context) {
         Map<String, String> wifiInfoMap = new HashMap<>();
         WifiManager manager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
@@ -223,5 +254,6 @@ public class InternetUtils {
         wifiInfoMap.put("rssi", String.valueOf(info.getRssi()));
         return wifiInfoMap;
     }
+
 
 }
