@@ -43,6 +43,12 @@ public class InternetUtils {
     public static final int TYPE_ETHERNET = 2;
     private static final String TAG = "InternetUtils";
 
+    private static InternetUtils mInternetUtils = new InternetUtils();
+    private InternetUtils(){}
+    public static InternetUtils getInstance(){
+        return mInternetUtils;
+    }
+
     /**
      * 判断网络是否连接
      * @param context
@@ -62,7 +68,6 @@ public class InternetUtils {
 
     /**
      * 返回网络类型 none wifi mobile（移动网络） ethernet(以太网)
-     *
      * @param context
      * @return
      */
