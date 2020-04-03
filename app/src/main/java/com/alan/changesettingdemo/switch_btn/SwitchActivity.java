@@ -1,5 +1,6 @@
 package com.alan.changesettingdemo.switch_btn;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -30,7 +31,6 @@ public class SwitchActivity extends AppCompatActivity {
 //            mIvSwitch.setSelected(isCheck = !isCheck);
 //        });
 
-        mSwitch = findViewById(R.id.switch_setting);
 
 
     }

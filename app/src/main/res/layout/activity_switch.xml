@@ -30,18 +30,25 @@
 <!--        />-->
 
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:thumb="@drawable/selector_setting_switch_thumb"
-        app:track="@drawable/selector_setting_switch_track"
+<!--    <androidx.appcompat.widget.SwitchCompat-->
+<!--        android:id="@+id/switch_setting"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:thumb="@drawable/selector_setting_switch_thumb"-->
+<!--        app:track="@drawable/selector_setting_switch_track"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        />-->
+
+    <com.alan.changesettingdemo.switch_btn.SwitchButton
+        android:layout_width="35dp"
+        android:layout_height="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
