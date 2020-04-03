@@ -9,6 +9,7 @@ import android.widget.SeekBar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.alan.changesettingdemo.R;
 
@@ -20,6 +21,7 @@ public class Main3Activity extends AppCompatActivity {
 
     private BatteryView mBatteryView;
     private SeekBar mSeekBar;
+    private Fragment mFragment;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

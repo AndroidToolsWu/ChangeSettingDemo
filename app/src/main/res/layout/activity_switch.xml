@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<!--    <SeekBar-->
+<!--        android:id="@+id/seek_bar"-->
+<!--        android:layout_width="245dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:thumb="@mipmap/mdw_ic_setting_seek_bar_oval"-->
+<!--        android:progressDrawable="@drawable/seek_bar_bg"-->
+<!--        android:splitTrack="false"-->
+<!--        android:maxHeight="4dp"-->
+<!--        android:minHeight="4dp"-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"/>-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/iv_switch"-->
+<!--        android:layout_width="46dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:src="@drawable/mdw_selector_switch_state"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/seek_bar"-->
+<!--        />-->
+
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:thumb="@drawable/selector_setting_switch_thumb"
+        app:track="@drawable/selector_setting_switch_track"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

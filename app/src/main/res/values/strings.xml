@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ChangeSettingDemo</string>
+
+    <string name="app_status_bar_battery">\s%</string>
 </resources>
